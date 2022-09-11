@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3oevng8d2pnb"]
+
+[ext_resource type="Theme" uid="uid://dxwlpevgwjt7k" path="res://ui/theme.tres" id="1_h371v"]
+[ext_resource type="Script" path="res://ui/HUD.gd" id="1_qimi0"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_tyld6"]
+action = &"start_game"
+
+[sub_resource type="Shortcut" id="Shortcut_y5fsx"]
+events = [SubResource("InputEventAction_tyld6")]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_qimi0")
+
+[node name="ScoreLabel" type="Label" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 81.0
+grow_horizontal = 2
+theme = ExtResource("1_h371v")
+text = "0"
+horizontal_alignment = 1
+
+[node name="Message" type="Label" parent="."]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -40.5
+offset_bottom = 40.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_h371v")
+text = "Dodge!"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="StartButton" type="Button" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -86.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+theme = ExtResource("1_h371v")
+shortcut = SubResource("Shortcut_y5fsx")
+text = "Start"
+
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]

@@ -1,0 +1,61 @@
+[gd_scene load_steps=9 format=3 uid="uid://xbdixqohvwq7"]
+
+[ext_resource type="Script" path="res://levels/Main.gd" id="1_jnteg"]
+[ext_resource type="PackedScene" uid="uid://c8ka7jmra66m6" path="res://characters/Player.tscn" id="1_lkmuf"]
+[ext_resource type="PackedScene" uid="uid://tq7ohqmw3ilv" path="res://characters/Mob.tscn" id="2_nquo3"]
+[ext_resource type="PackedScene" uid="uid://xt4nvp52qd4e" path="res://characters/CpuExplosion.tscn" id="3_lia0o"]
+[ext_resource type="PackedScene" uid="uid://c3oevng8d2pnb" path="res://ui/HUD.tscn" id="4_1q6gj"]
+[ext_resource type="AudioStream" uid="uid://br04sm1s14nwb" path="res://art/House In a Forest Loop.ogg" id="5_ndm8l"]
+[ext_resource type="AudioStream" uid="uid://dw5y62poj1dui" path="res://art/gameover.wav" id="6_3hn15"]
+
+[sub_resource type="Curve2D" id="Curve2D_ddcda"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 480, 0, 0, 0, 0, 0, 480, 720, 0, 0, 0, 0, 0, 720, 0, 0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[node name="Main" type="Node"]
+script = ExtResource("1_jnteg")
+mob_scene = ExtResource("2_nquo3")
+explosion_scene = ExtResource("3_lia0o")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0784314, 0.721569, 0.65098, 1)
+
+[node name="Player" parent="." instance=ExtResource("1_lkmuf")]
+
+[node name="MobTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="StartPosition" type="Node2D" parent="."]
+position = Vector2(240, 450)
+
+[node name="MobPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_ddcda")
+
+[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
+
+[node name="HUD" parent="." instance=ExtResource("4_1q6gj")]
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_ndm8l")
+
+[node name="GameOverSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_3hn15")
+
+[connection signal="hit" from="Player" to="." method="game_over"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
+[connection signal="start_game" from="HUD" to="." method="new_game"]

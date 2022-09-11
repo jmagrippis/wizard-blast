@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://xt4nvp52qd4e"]
+
+[ext_resource type="Script" path="res://characters/CpuExplosion.gd" id="1_e6gf7"]
+
+[node name="CpuParticles2d" type="CPUParticles2D"]
+amount = 64
+lifetime = 0.6
+explosiveness = 1.0
+randomness = 0.1
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector2(1, -90)
+gravity = Vector2(0, 400)
+initial_velocity_min = 10.0
+initial_velocity_max = 300.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+script = ExtResource("1_e6gf7")
+
+[node name="TimeToLiveTimer" type="Timer" parent="."]
+wait_time = 0.6
+
+[connection signal="timeout" from="TimeToLiveTimer" to="." method="_on_time_to_live_timer_timeout"]
